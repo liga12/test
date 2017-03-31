@@ -8,6 +8,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "calendar_view")
 public class CalendarView implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -15,7 +16,7 @@ public class CalendarView implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @Column(name = "date_view")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dateView;
     @Basic(optional = false)
     @Column(name = "state")
@@ -23,21 +24,8 @@ public class CalendarView implements Serializable {
     @JoinColumn(name = "id_building", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Building building;
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "calendarView")
-//    private List<Registration> registrationList;
-
-    public CalendarView() {
-    }
-
-    public CalendarView(Integer id) {
-        this.id = id;
-    }
-
-    public CalendarView(Integer id, Date dateView, boolean state) {
-        this.id = id;
-        this.dateView = dateView;
-        this.state = state;
-    }
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "calendarView")
+    private List<Registration> registrationList;
 
     public Integer getId() {
         return id;
@@ -71,13 +59,13 @@ public class CalendarView implements Serializable {
         this.building = building;
     }
 
-//    public List<Registration> getRegistrationList() {
-//        return registrationList;
-//    }
-//
-//    public void setRegistrationList(List<Registration> registrationList) {
-//        this.registrationList = registrationList;
-//    }
+    public List<Registration> getRegistrationList() {
+        return registrationList;
+    }
+
+    public void setRegistrationList(List<Registration> registrationList) {
+        this.registrationList = registrationList;
+    }
 
     @Override
     public int hashCode() {
@@ -88,7 +76,6 @@ public class CalendarView implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof CalendarView)) {
             return false;
         }
@@ -105,7 +92,6 @@ public class CalendarView implements Serializable {
                 "id=" + id +
                 ", dateView=" + dateView +
                 ", state=" + state +
-                ", building=" + building +
                 '}';
     }
 }

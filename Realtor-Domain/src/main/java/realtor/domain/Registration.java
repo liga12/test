@@ -1,12 +1,11 @@
 package realtor.domain;
 
-import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
+import javax.persistence.*;
 
 @Entity
-@Table(name = "user1")
-public class User implements Serializable {
+@Table(name = "registration")
+public class Registration implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,11 +23,21 @@ public class User implements Serializable {
     private String patronymic;
     @Basic(optional = false)
     @Column(name = "phone")
-    private long phone;
+    private String phone;
+    @JoinColumn(name = "id_calendar_view", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private CalendarView calendarView;
 
+    public Registration() {
+    }
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user1")
-    private List<Building> buildingList;
+    public Registration(String surname, String name, String patronymic, String phone, CalendarView calendarView) {
+        this.surname = surname;
+        this.name = name;
+        this.patronymic = patronymic;
+        this.phone = phone;
+        this.calendarView = calendarView;
+    }
 
     public Integer getId() {
         return id;
@@ -62,20 +71,20 @@ public class User implements Serializable {
         this.patronymic = patronymic;
     }
 
-    public long getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(long phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
-    public List<Building> getBuildingList() {
-        return buildingList;
+    public CalendarView getCalendarView() {
+        return calendarView;
     }
 
-    public void setBuildingList(List<Building> buildingList) {
-        this.buildingList = buildingList;
+    public void setCalendarView(CalendarView calendarView) {
+        this.calendarView = calendarView;
     }
 
     @Override
@@ -87,10 +96,10 @@ public class User implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof User)) {
+        if (!(object instanceof Registration)) {
             return false;
         }
-        User other = (User) object;
+        Registration other = (Registration) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -99,12 +108,6 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "User{" +
-                "surname='" + surname + '\'' +
-                ", name='" + name + '\'' +
-                ", patronymic='" + patronymic + '\'' +
-                ", phone=" + phone +
-                ", id=" + id +
-                '}';
+        return "model.entity.rea.Registration[ id=" + id + " ]";
     }
 }

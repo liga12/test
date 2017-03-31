@@ -19,26 +19,20 @@ public class Building {
     @Basic(optional = false)
     @Column(name = "house")
     private int house;
+    @Basic(optional = false)
     @Column(name = "apartment")
     private Integer apartment;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "building")
+    @Basic(optional = false)
+    @Column(name = "description")
+    private String description;
+    @Basic(optional = false)
+    @Column(name = "image")
+    private String image;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "building", fetch = FetchType.EAGER)
     private List<CalendarView> calendarViewList;
     @JoinColumn(name = "id_user", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private User user1;
-
-    public Building() {
-    }
-
-    public Building(Integer id) {
-        this.id = id;
-    }
-
-    public Building(Integer id, String street, int house) {
-        this.id = id;
-        this.street = street;
-        this.house = house;
-    }
 
     public Integer getId() {
         return id;
@@ -66,6 +60,22 @@ public class Building {
 
     public Integer getApartment() {
         return apartment;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public void setApartment(Integer apartment) {
@@ -97,7 +107,6 @@ public class Building {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Building)) {
             return false;
         }
@@ -108,7 +117,6 @@ public class Building {
         return true;
     }
 
-
     @Override
     public String toString() {
         return "Building{" +
@@ -116,6 +124,7 @@ public class Building {
                 ", street='" + street + '\'' +
                 ", house=" + house +
                 ", apartment=" + apartment +
+                ", calendarViewList=" + calendarViewList +
                 ", user1=" + user1 +
                 '}';
     }

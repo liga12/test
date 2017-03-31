@@ -2,6 +2,7 @@ package realtor.domain;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.CriteriaSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,6 +61,8 @@ public abstract class AbstractDao<T, I extends Serializable> implements BaseDao<
     @Override
     public List<T> getList() {
         Session session = getCurrentSession();
-        return (List<T>) session.createCriteria(entityClass).list();
+
+        return (List<T>) session.createCriteria(entityClass).
+                setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
     }
 }
